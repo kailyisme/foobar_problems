@@ -53,14 +53,29 @@ def solver(starting_point: int, end_point: int, table=chess_table):
         return 0
     list_pos = {starting_point,}
     amount_moves = 0
+    all_moves = {}
     while True:
         new_pos = []
         for pos in list_pos:
-            new_pos.extend(poss_moves(pos, table))
+            moves_for_pos = poss_moves(pos, table)
+            new_pos.extend(moves_for_pos)
+            all_moves[f"{amount_moves},{pos}"] = moves_for_pos
         amount_moves += 1
         if end_point in new_pos:
-            return amount_moves
+            last_pos = end_point
+            path = [end_point]
+            for i in range(amount_moves):
+                last_step = amount_moves - i -1
+                for key in all_moves:
+                    if int(key.split(",")[0]) == last_step and last_pos in all_moves[key]:
+                        last_pos = int(key.split(",")[1])
+                        path.append(last_pos)
+                        break
+            path = path[::-1]
+            return amount_moves, path
+        new_pos = [i for i in new_pos if i not in all_moves.keys()]
         list_pos = set(new_pos)
 
 print(solver(0,1))
 print(solver(19,36))
+print(solver(0,63))
