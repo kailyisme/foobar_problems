@@ -11,14 +11,14 @@ append_seven(chess_table)
 while chess_table[-1][-1] < 63:
     append_seven(chess_table)
 
-for y in chess_table:
-    line = ""
-    for x in y:
-        if x < 10:
-            line += f"0{x} "
-        else:
-            line += f"{x} "
-    print(line)
+# for y in chess_table:
+#     line = ""
+#     for x in y:
+#         if x < 10:
+#             line += f"0{x} "
+#         else:
+#             line += f"{x} "
+#     print(line)
 
 def poss_moves(from_point: int, table=chess_table):
     possible_moves = [
@@ -76,6 +76,33 @@ def solver(starting_point: int, end_point: int, table=chess_table):
         new_pos = [i for i in new_pos if i not in all_moves.keys()]
         list_pos = set(new_pos)
 
-print(solver(0,1))
-print(solver(19,36))
-print(solver(0,63))
+amount_of_steps, path = solver(0,1)
+print(f"{amount_of_steps} steps from position {path[0]} to {path[-1]}")
+for y in chess_table:
+    line = ""
+    for x in y:
+        if x in path:
+            line += f"0{path.index(x)} "
+        else:
+            line += f"__ "
+    print(line)
+amount_of_steps, path = solver(19,36)
+print(f"{amount_of_steps} steps from position {path[0]} to {path[-1]}")
+for y in chess_table:
+    line = ""
+    for x in y:
+        if x in path:
+            line += f"0{path.index(x)} "
+        else:
+            line += f"__ "
+    print(line)
+amount_of_steps, path = solver(0,63)
+print(f"{amount_of_steps} steps from position {path[0]} to {path[-1]}")
+for y in chess_table:
+    line = ""
+    for x in y:
+        if x in path:
+            line += f"0{path.index(x)} "
+        else:
+            line += f"__ "
+    print(line)
